@@ -1,8 +1,9 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
+import datetime
 
-user_name_list = ['#Mama']
-user_answer_list = ['Minhstdercoolste', 'My Lan', 'My Linh', '#Mama']
+user_name_list = ['My Lan']
+user_answer_list = ['My Linh', '#DAD', 'My Lan']
 
 special_character = [r'@', '_', '!', '$', '%', '^', '&', '*', '(', ')', '<', '>', '?', '/', '\\', '|', '}', '{',
                      '~', ': '
@@ -10,6 +11,10 @@ special_character = [r'@', '_', '!', '$', '%', '^', '&', '*', '(', ')', '<', '>'
 
 valid_end = ['!end'
              ]
+birth_Inventor = datetime.datetime(1997, 3, 26)
+
+funcs = ["!startrepeat", "!help", "!minh", "!facts"
+         ]
 
 
 def startChrome():

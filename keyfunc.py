@@ -1,10 +1,12 @@
 import sys
-from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException
+from selenium.common.exceptions import ElementClickInterceptedException, NoSuchElementException, \
+    StaleElementReferenceException
 import re
 import time as t
 import Settings as s
 
 LAST_BOT_ELE = ""
+
 
 class Keyfunc:
     def __init__(self, browser):
@@ -32,7 +34,8 @@ class Keyfunc:
     # Function for getting user from
     def new_chat(self, user_name):
         # Selecting the new chat search textbox
-        new_chat = self.chrome_browser.find_element_by_xpath('//*[@id="side"]/descendant::div[contains(@data-tab, "3")]')
+        new_chat = self.chrome_browser.find_element_by_xpath(
+            '//*[@id="side"]/descendant::div[contains(@data-tab, "3")]')
         new_chat.click()
 
         # Enter the name of chat
@@ -55,7 +58,7 @@ class Keyfunc:
                 print(e)
                 sys.exit()
 
-    def checkUnread(self):
+    def checkUnreadUser(self):
         unread_users = []
         unread = self.chrome_browser.find_elements_by_class_name('OUeyt')
         #   print(unread)
@@ -66,6 +69,47 @@ class Keyfunc:
 
         #   print(unread_users)
         return unread_users
+
+    def checkUnreadText(self):
+        unread_text = []
+        unread = self.chrome_browser.find_elements_by_xpath('.//*[@class="OUeyt"]/../../../..//span[@dir="ltr"]')
+        print(unread)
+        for msg in unread:
+            text = msg.text
+            unread_text.append(text)
+        return unread_text
+
+    def checkUnread(self):
+        unread_dict = {}
+        unread_symbol = self.chrome_browser.find_elements_by_class_name('OUeyt')
+        if not unread_symbol:
+            unread_symbol = self.chrome_browser.find_elements_by_class_name('_31gEB')
+
+        try:
+            for user in unread_symbol:
+                parent = user.find_element_by_xpath("./../../../../..")
+                child_name = parent.find_element_by_xpath('.//span[@dir="auto"]')
+                name = child_name.get_attribute('title')
+                child_name = parent.find_element_by_xpath('.//span[@dir="ltr"]')
+                msg = child_name.text
+                unread_dict[name] = msg
+        except NoSuchElementException:
+            print("cant locate Element")
+        except StaleElementReferenceException:
+            print("element is not attached to the page document")
+
+        #       print(unread_dict)
+        return unread_dict
+
+    def getActiveChat(self):
+        try:
+            user = self.chrome_browser.find_element_by_xpath('.//*[@id="main"]//span[@dir="auto"]')
+            user_name = user.get_attribute('title')
+            return user_name
+        except NoSuchElementException as se:
+            pass
+
+    #          print("no active chat")
 
     def getlastTextMessage(self, message_list):
         count = -1
@@ -93,12 +137,13 @@ class Keyfunc:
         try:
             if message[-1].get_attribute('data-id') != LAST_BOT_ELE:
                 LAST_BOT_ELE = message[-1].get_attribute('data-id')
-                print(message[-1].get_attribute('data-id'))
+            #               print(message[-1].get_attribute('data-id'))
             else:
                 return
         except IndexError:
-            print("no message received")
-            return
+            pass
+        #   print("no message received")
+        #   return
 
         try:
             child = self.getlastTextMessage(message)
@@ -106,8 +151,10 @@ class Keyfunc:
             print(text)
             return text
         except IndexError:
-            print("no message received")
-            return
+            pass
+
+    #       print("no message received")
+    #       return
 
     def clickUser(self, user_name):
         try:
