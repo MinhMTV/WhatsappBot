@@ -56,7 +56,7 @@ class Func:
             t.sleep(2)
             self.k.writeMessageToUser(u, f"Hallo {self.k.getUserName(u)}")
             self.k.writeMessageToUser(u,
-                                      f"Mein Name ist Chris und ich bin ein WhatsApp-Bot programmiert von meinem Erfinder, dem sensationellen *Minh*")
+                                      f"Mein Name ist Hachiko und ich bin ein WhatsApp-Bot programmiert von meinem Erfinder, dem sensationellen *Minh*")
             self.k.writeMessageToUser(u, f"Erfahre mehr über mich mit dem Befehl *!Bot*")
             self.k.writeMessageToUser(u, f"Lerne alle meine Funktionen kennen mit dem Befehl *!Help*")
             self.k.writeMessageToUser(u, f"Erfahre mehr über Minh, dem Erfinder mit dem Befehl *!Minh*")
@@ -87,22 +87,23 @@ class Func:
         self.k.writeMessageToUser(u, f"*!Start Repeat*")
         self.k.writeMessageToUser(u,
                                   f"Wiederholt jedes Wort, welches du mir schreibst. Beenden kannst du die Funktion mit dem Befehl: *!End*")
+        self.k.writeMessageToUser(u, f"Erfahre mehr mich mit dem Befehl *!Bot*")
         self.k.writeMessageToUser(u, f"Erfahre mehr über Minh, dem Erfinder mit dem Befehl *!Minh*")
         self.k.writeMessageToUser(u, f"Lerne Fakten über Minh kennen mit dem Befehl *!Facts*")
 
         return
 
     def explainBot(self, u):
-        self.k.writeMessageToUser(u, f"Mein Name ist Chris")
+        self.k.writeMessageToUser(u, f"Mein Name ist Hachiko")
         self.k.writeMessageToUser(u,
-                                  f"Ich bin am {getCreationDay(w.FILE_CREATION)} zur Welt gekommen, bin jetzt schon {days_between(getCreationDay(w.FILE_CREATION), getActualDate())} und werde seitdem stetig verbessert")
+                                  f"Ich bin am {getCreationDay(w.FILE_CREATION)} zur Welt gekommen, bin jetzt schon {days_between(getCreationDay(w.FILE_CREATION), str(getActualDate()))} Tage alt und werde seitdem stetig verbessert")
         self.k.writeMessageToUser(u,
                                   "Ich laufe nicht 24 Stunden lang (vorerst), sondern nur, solange Minh mich startet")
         self.k.writeMessageToUser(u,
                                   "Falls ich aber laufe, bin ich laufend für dich verfügbar und du kannst jederzeit mit mir interagieren")
         self.k.writeMessageToUser(u,
                                   "Falls du Ideen oder Anregungen hast ,um mich zu verbessern, kannst du gerne meinen Erfindern anschreiben")
-        self.k.writeMessageToUser(u, "Ansonsten wünsche ich dir jetzt jetzt einen wünschen schönen Tag :)")
+        self.k.writeMessageToUser(u, "Ansonsten wünsche ich dir jetzt jetzt einen schönen Tag :)")
 
     def explainMinh(self, u):
         self.k.writeMessageToUser(u,
@@ -128,7 +129,7 @@ class Func:
                                   "Neben seinem 'normalen Leben' geht er auch Nachts auf Verbrecherjagd. Seine Deckname ist vielleicht bekannt unter den Namen *Batman*" )
         self.k.writeMessageToUser(u,
                                   "Obwohl Minh immer schon ein normaler Junge sein wollte, war es ihm es nie möglich, ein normales Leben zu führen, da sein *hoher* Intelligenzquotient dazu"
-                                  "führte, dumme Menschen zu verachten und Hass in ihm aufzubauen")
+                                  " führte, dumme Menschen zu verachten und Hass in ihm aufzubauen")
         self.k.writeMessageToUser(u, "In seiner Freizeit hilft Minh bei verschiedenen Projekten. Sein letztes Projekt ist streng geheim gewesen, aber ein Tipp: Es hat was mit *Raketen* und der *ISS* zu tun")
 
     def getFunction(self, u, message):
@@ -140,6 +141,9 @@ class Func:
             elif x == "!help":
                 self.getHelp(u)
                 return "!help"
+            elif x == "!bot":
+                self.explainBot(u)
+                return "!bot"
             elif x == "!minh":
                 self.explainMinh(u)
                 return "!minh"

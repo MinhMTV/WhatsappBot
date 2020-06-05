@@ -11,6 +11,7 @@ from selenium.common.exceptions import NoSuchElementException, ElementClickInter
 
 FILE_CREATION = os.path.abspath(__file__)
 
+
 def getBrowser():
     return chrome_browser
 
@@ -30,46 +31,30 @@ if __name__ == '__main__':
 
     f = f.Func(chrome_browser)
     lastmsg = ""
-    activate = None
+    lastMsgByUser = {}
     while 1:
         unread = k.checkUnread()
-        for x in unread:
-            if x in s.user_answer_list:
-                # print(x)
-                # print("guckt ob user funktion aktiviert hat")
-                activate = f.getFunction(x, unread[x])
-                # print(activate)
-                # if activate is None:
-                #     k.writeMessageToUser(x, "hi")
-        if activate is not None:
-            if activate in s.funcs:
-                print("user used already func")
-                lastmsg = activate
-                activate = None
-
+        activate = None
+        unread_user = k.getActiveChat()
+        for user_name in unread:
+            if user_name in s.user_answer_list:
+                #unread[user_name] = text_value
+                activate = f.getFunction(user_name, unread[user_name])
+                if activate is not None:
+                    if activate in s.funcs:
+                        print("user used already func")
+                        unread_user = user_name
+                        lastMsgByUser[user_name] = activate
+                        activate = None
+                        break
         else:
             msg = k.getMessage()
             user = k.getActiveChat()
-            if msg is not None and lastmsg != msg:
-                f.getFunction(user, msg)
-        t.sleep(1)
-
-
-
-    # for user in s.user_answer_list:
-    #
-    #             print("user already ask function")
-    #     else:
-    #         msg = k.getMessage()
-    #         if msg is not None:
-    #             f.getFunction(x, msg)
-
-
-        # for user in unread_users:
-        #
-        #     if user in user_answer_list:
-        #         writeMessageToUser(user,)
-        #     else:
-        #         print(f'{user} is no defined user')
+            try:
+                if msg is not None and lastMsgByUser[user] != msg.lower().replace(" ", "") and user == unread_user:
+                    lastMsgByUser[user] = f.getFunction(user, msg)
+            except KeyError:
+                if msg.lower().replace(" ", "") in s.funcs:
+                    lastMsgByUser[user] = msg
 
 #    chrome_browser.close()

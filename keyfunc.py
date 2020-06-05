@@ -108,6 +108,8 @@ class Keyfunc:
             return user_name
         except NoSuchElementException as se:
             pass
+        except StaleElementReferenceException:
+            pass
 
     #          print("no active chat")
 

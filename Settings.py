@@ -13,7 +13,7 @@ valid_end = ['!end'
              ]
 birth_Inventor = datetime.datetime(1997, 3, 26)
 
-funcs = ["!startrepeat", "!help", "!minh", "!facts"
+funcs = ["!startrepeat", "!help", "!minh", "!facts", "!bot"
          ]
 
 
@@ -27,5 +27,5 @@ def startChrome():
         executable_path=r'C:\Program Files (x86)\Python37-32\Lib\site-packages\chromedriver.exe',
         options=options)  # Change the path as per your local dir.
 
-    print(type(chrome_browser))
+#   print(type(chrome_browser))
     return chrome_browser
