@@ -3,7 +3,7 @@ from selenium.common.exceptions import NoSuchElementException, ElementClickInter
 import datetime
 
 user_name_list = ['My Lan']
-user_answer_list = ['My Linh', '#DAD', 'My Lan']
+user_answer_list = ['My Linh', 'My Lan']
 
 special_character = [r'@', '_', '!', '$', '%', '^', '&', '*', '(', ')', '<', '>', '?', '/', '\\', '|', '}', '{',
                      '~', ': '
